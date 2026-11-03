@@ -87,6 +87,7 @@ hr{border:0;border-top:2px dashed #cfc9a6;margin:16px 0}
     <div class="txt"><h2>VALOR</h2><p id="v1" class="vacio">Sin descripción todavía.</p></div>
     <div class="txt"><h2>LOTERIA</h2><p id="v2" class="vacio">Sin descripción todavía.</p></div>
     <div class="txt"><h2>HORA</h2><p id="v3" class="vacio">Sin descripción todavía.</p></div>
+    <div class="txt"><h2>PREMIOS</h2><p id="v4" class="vacio">Sin descripción todavía.</p></div>
   </section>
 
   <div id="barra">
@@ -157,6 +158,8 @@ hr{border:0;border-top:2px dashed #cfc9a6;margin:16px 0}
   <textarea id="pT2" maxlength="500"></textarea>
   <label for="pT3">TEXTO 3</label>
   <textarea id="pT3" maxlength="500"></textarea>
+  <label for="pT4">TEXTO 4</label>
+  <textarea id="pT4" maxlength="500"></textarea>
   <div class="fila"><button class="main" id="pGuardarTextos">Guardar textos</button></div>
   <hr>
   <h3>Números elegidos</h3>
@@ -331,7 +334,7 @@ $("pToggle").onclick = async () => {
   try { await set(ref(db, "config"), {max: cfg.max, enabled: !cfg.enabled}); pe(""); } catch (e) { pe("No tienes permiso."); }
 };
 $("pGuardarTextos").onclick = async () => {
-  const t = {t1: $("pT1").value.trim().slice(0, 500), t2: $("pT2").value.trim().slice(0, 500), t3: $("pT3").value.trim().slice(0, 500)};
+  const t = {t1: $("pT1").value.trim().slice(0, 500), t2: $("pT2").value.trim().slice(0, 500), t3: $("pT3").value.trim().slice(0, 500), t4: $("pT4").value.trim().slice(0, 500)};
   try { await set(ref(db, "textos"), t); pe("Textos guardados."); } catch (e) { pe("No tienes permiso para guardar los textos."); }
 };
 $("pReset").onclick = async () => {
