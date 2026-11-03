@@ -240,7 +240,7 @@ onValue(ref(db, "config"), s => { const v = s.val(); if (v) cfg = {max: +v.max |
 onValue(ref(db, "taken"), s => { taken = s.val() || {}; sel.forEach(n => { if (taken[n]) sel.delete(n); }); pintar(); pintarElegidos(); });
 onValue(ref(db, "textos"), s => {
   const v = s.val() || {};
-  [1, 2, 3].forEach(n => {
+  [1, 2, 3, 4].forEach(n => {
     const t = (v["t" + n] || "").toString(), p = $("v" + n), ta = $("pT" + n);
     p.textContent = t || "Sin descripción todavía.";
     p.classList.toggle("vacio", !t);
