@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GANA AHORA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--crema:#FBF2CC;--crema2:#FFF9E3;--trebol:#1E9E50;--trebol-o:#0B6B33;--gris:#E2DFD0;--tinta:#1C2A21;--rojo:#B3261E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--crema);color:var(--tinta);font-family:'Chakra Petch',system-ui,sans-serif;line-height:1.4}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;padding:8px 0 16px}
+h1{margin:0;font-size:clamp(2rem,8vw,3.2rem);line-height:1;font-weight:700;letter-spacing:-.02em;color:var(--trebol-o)}
+.slogan{margin:6px 0 0;font-weight:500}
+.online{display:flex;align-items:center;gap:8px;background:var(--crema2);border:2px solid var(--trebol);border-radius:999px;padding:6px 14px;font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--trebol);box-shadow:0 0 0 0 rgba(30,158,80,.6);animation:p 2s infinite}
+@keyframes p{70%{box-shadow:0 0 0 8px rgba(30,158,80,0)}100%{box-shadow:0 0 0 0 rgba(30,158,80,0)}}
+.estado{background:var(--crema2);border:2px solid var(--tinta);border-radius:12px;padding:14px;margin-bottom:16px}
+.estado p{margin:0 0 10px;font-weight:500}
+.acciones{display:flex;gap:10px;flex-wrap:wrap}
+button{font:inherit;font-weight:600;border:2px solid var(--tinta);background:var(--crema2);color:var(--tinta);padding:10px 16px;border-radius:10px;cursor:pointer}
+button:focus-visible,input:focus-visible,.cel:focus-visible{outline:3px solid var(--trebol);outline-offset:2px}
+button.main{background:var(--trebol);border-color:var(--trebol-o);color:#fff}
+button.main:disabled{background:var(--gris);border-color:#bbb8a8;color:#7b7968;cursor:not-allowed}
+button.peligro{border-color:var(--rojo);color:var(--rojo)}
+button.link{border:0;background:none;text-decoration:underline;padding:10px 4px}
+#barra{display:none;position:sticky;top:0;z-index:5;background:var(--tinta);color:#fff;border-radius:12px;padding:12px;margin-bottom:12px;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+#barra.on{display:flex}
+#barra button{border-color:#fff}
+#grid{display:grid;grid-template-columns:repeat(10,1fr);gap:clamp(3px,1vw,8px);margin-bottom:28px}
+.cel{aspect-ratio:1;padding:0;border:2px solid #bdb9a6;background:var(--gris);color:#5c5a4b;font-size:clamp(.7rem,3vw,1.1rem);border-radius:8px}
+.cel.pick{background:var(--trebol);border-color:var(--trebol-o);color:#fff;transform:scale(1.06)}
+.cel.taken{background:var(--trebol-o);border-color:var(--trebol-o);color:#fff;cursor:not-allowed}
+h2{font-size:1.3rem;margin:0 0 10px}
+#lista{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px 16px}
+#lista li{display:flex;gap:10px;align-items:center;border-bottom:2px dashed #cfc9a6;padding:6px 2px;min-height:38px}
+#lista b{min-width:2.2em;color:var(--trebol-o)}
+#lista span{flex:1;font-weight:600;word-break:break-word}
+dialog{border:3px solid var(--tinta);border-radius:16px;background:var(--crema2);color:var(--tinta);width:min(440px,92vw);padding:20px;max-height:90vh}
+dialog::backdrop{background:rgba(28,42,33,.55)}
+dialog h3{margin:0 0 12px;font-size:1.3rem}
+label{display:block;font-weight:600;margin:10px 0 4px}
+input{font:inherit;width:100%;padding:10px;border:2px solid var(--tinta);border-radius:10px;background:#fff}
+.err{color:var(--rojo);font-weight:600;min-height:1.4em;margin:8px 0 0}
+.fila{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.req{border:2px solid var(--tinta);border-radius:10px;padding:10px;margin:8px 0;background:#fff}
+.req small{display:block;color:#555}
+.nums{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.nums label{display:flex;align-items:center;gap:6px;margin:0;padding:4px 10px;border:2px solid var(--tinta);border-radius:8px;background:var(--crema2);cursor:pointer}
+.nums label.ok{background:#d8f2e1;border-color:var(--trebol-o)}
+.nums input{width:auto;padding:0;margin:0;accent-color:var(--trebol-o)}
+.req .fila{margin-top:8px}
+.req input{width:110px}
+.textos{display:grid;gap:10px;margin-bottom:20px}
+.txt{background:var(--crema2);border:2px solid var(--tinta);border-radius:12px;padding:12px 14px}
+.txt h2{font-size:1.05rem;margin:0 0 4px;color:var(--trebol-o)}
+.txt p{margin:0;white-space:pre-wrap;word-break:break-word}
+.txt p.vacio{color:#7b7968;font-style:italic}
+textarea{font:inherit;width:100%;padding:10px;border:2px solid var(--tinta);border-radius:10px;background:#fff;resize:vertical;min-height:70px}
+textarea:focus-visible{outline:3px solid var(--trebol);outline-offset:2px}
+hr{border:0;border-top:2px dashed #cfc9a6;margin:16px 0}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>GANA AHORA</h1>
+      <p class="slogan">Ganar nunca había sido tan fácil</p>
+    </div>
+    <div class="online" title="Personas conectadas ahora"><span class="dot"></span><span><b id="online">0</b> conectados</span></div>
+  </header>
+
+  <section class="estado">
+    <p id="estadoTxt">Cargando…</p>
+    <div class="acciones">
+      <button class="main" id="btnElegir" disabled>Elegir mis números</button>
+      <button id="btnSolicitar">Solicitar ingreso</button>
+      <button class="link" id="btnAdmin">Administrador</button>
+    </div>
+  </section>
+
+  <section class="textos" id="textos" aria-label="Descripciones">
+    <div class="txt"><h2>TEXT1</h2><p id="v1" class="vacio">Sin descripción todavía.</p></div>
+    <div class="txt"><h2>TEXT2</h2><p id="v2" class="vacio">Sin descripción todavía.</p></div>
+    <div class="txt"><h2>HORA</h2><p id="v3" class="vacio">Sin descripción todavía.</p></div>
+  </section>
+
+  <div id="barra">
+    <span id="barraTxt"></span>
+    <span class="acciones">
+      <button class="main" id="btnGuardar">Guardar</button>
+      <button id="btnCancelar">Cancelar</button>
+    </span>
+  </div>
+
+  <div id="grid" role="group" aria-label="Cuadrícula de números del 0 al 99"></div>
+
+  <h2>Números elegidos</h2>
+  <ol id="lista"></ol>
+</div>
+
+<!-- Solicitud de ingreso -->
+<dialog id="dSolicitud">
+  <h3>Solicitar ingreso</h3>
+  <label for="sNombre">Nombre completo</label>
+  <input id="sNombre" maxlength="60" autocomplete="name">
+  <label for="sUsuario">Usuario (máximo 8 letras)</label>
+  <input id="sUsuario" maxlength="8" autocapitalize="none" autocomplete="off">
+  <label for="sCel">Número de celular</label>
+  <input id="sCel" inputmode="numeric" maxlength="15" autocomplete="tel">
+  <p class="err" id="sErr"></p>
+  <div class="fila"><button class="main" id="sEnviar">Enviar solicitud</button><button data-cerrar>Cerrar</button></div>
+</dialog>
+
+<!-- Ingreso para elegir -->
+<dialog id="dElegir">
+  <h3>Ingresa para elegir</h3>
+  <label for="eUsuario">Usuario</label>
+  <input id="eUsuario" maxlength="8" autocapitalize="none" autocomplete="off">
+  <label for="eCodigo">Código de acceso</label>
+  <input id="eCodigo" type="password" autocomplete="off">
+  <p class="err" id="eErr"></p>
+  <div class="fila"><button class="main" id="eContinuar">Continuar</button><button data-cerrar>Cerrar</button></div>
+</dialog>
+
+<!-- Login admin -->
+<dialog id="dLogin">
+  <h3>Administrador</h3>
+  <label for="aUsuario">Usuario</label>
+  <input id="aUsuario" autocapitalize="none" autocomplete="username">
+  <label for="aClave">Contraseña</label>
+  <input id="aClave" type="password" autocomplete="current-password">
+  <p class="err" id="aErr"></p>
+  <div class="fila"><button class="main" id="aEntrar">Entrar</button><button data-cerrar>Cerrar</button></div>
+</dialog>
+
+<!-- Panel admin -->
+<dialog id="dPanel">
+  <h3>Panel de administrador</h3>
+  <label for="pMax">Números máximos por persona</label>
+  <input id="pMax" type="number" min="1" max="100" value="1">
+  <div class="fila">
+    <button class="main" id="pGuardarMax">Guardar máximo</button>
+    <button id="pToggle">Habilitar elección</button>
+  </div>
+  <div class="fila"><button class="peligro" id="pReset">Reiniciar selecciones</button></div>
+  <p class="err" id="pErr"></p>
+  <hr>
+  <h3>Textos de la página</h3>
+  <label for="pT1">TEXTO 1</label>
+  <textarea id="pT1" maxlength="500"></textarea>
+  <label for="pT2">TEXTO 2</label>
+  <textarea id="pT2" maxlength="500"></textarea>
+  <label for="pT3">TEXTO 3</label>
+  <textarea id="pT3" maxlength="500"></textarea>
+  <div class="fila"><button class="main" id="pGuardarTextos">Guardar textos</button></div>
+  <hr>
+  <h3>Números elegidos</h3>
+  <p id="pResumen">Sin números elegidos.</p>
+  <div id="pElegidos"></div>
+  <div class="fila"><button id="pMarcarTodos">Marcar todos como válidos</button><button class="peligro" id="pLiberar">Liberar números</button></div>
+  <hr>
+  <h3>Solicitudes de ingreso</h3>
+  <div id="pReqs">Sin solicitudes.</div>
+  <div class="fila"><button id="pSalir">Cerrar sesión</button><button data-cerrar>Cerrar</button></div>
+</dialog>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getDatabase,ref,onValue,set,update,push,onDisconnect} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+/* ===== PEGA AQUÍ TU CONFIGURACIÓN DE FIREBASE ===== */
+const firebaseConfig = {
+  apiKey: "AIzaSyDUYBQX0pwkmF_Ba9D5wM8hQ0dmvBZbdHA",
+  authDomain: "ganarahora-db0e6.firebaseapp.com",
+  databaseURL: "https://ganarahora-db0e6-default-rtdb.firebaseio.com",
+  projectId: "ganarahora-db0e6",
+  appId: "1:18761965031:web:74641c0ad09c55f4847142"
+};
+/* Dominio interno para el usuario admin (ver instrucciones) */
+const DOMINIO = "@velorastore.app";
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+const $ = id => document.getElementById(id);
+const norm = s => s.toLowerCase().replace(/[^a-z]/g, "");
+
+let cfg = {max:1, enabled:false}, taken = {}, pick = null, sel = new Set(), esAdmin = false, reqs = {}, codes = {}, validos = {};
+
+/* ---------- Cuadrícula y lista ---------- */
+const grid = $("grid"), lista = $("lista");
+for (let i = 0; i < 100; i++) {
+  const b = document.createElement("button");
+  b.className = "cel"; b.textContent = i; b.dataset.n = i;
+  b.onclick = () => clickNum(i);
+  grid.appendChild(b);
+  const li = document.createElement("li");
+  li.innerHTML = `<b>${i}</b><span id="l${i}"></span>`;
+  lista.appendChild(li);
+}
+const yaTiene = u => Object.values(taken).filter(x => x === u).length;
+function pintar() {
+  grid.querySelectorAll(".cel").forEach(b => {
+    const n = +b.dataset.n, t = taken[n];
+    b.className = "cel" + (t ? " taken" : sel.has(n) ? " pick" : "");
+    b.setAttribute("aria-label", t ? `Número ${n}, elegido por ${t}` : `Número ${n}`);
+    b.disabled = !!t;
+    $("l" + n).textContent = t || "";
+  });
+  const ya = pick ? yaTiene(pick.u) : 0;
+  $("barraTxt").textContent = pick ? `${pick.u}: elegiste ${sel.size} de ${Math.max(0, cfg.max - ya)} disponibles` + (ya ? ` (ya tenías ${ya})` : "") : "";
+  $("barra").classList.toggle("on", !!pick);
+  $("btnGuardar").disabled = !sel.size;
+  $("estadoTxt").textContent = cfg.enabled
+    ? `Elección habilitada: cada persona puede elegir hasta ${cfg.max} número${cfg.max === 1 ? "" : "s"}.`
+    : "La elección de números está deshabilitada por ahora.";
+  $("btnElegir").disabled = !cfg.enabled || !!pick;
+  $("pToggle").textContent = cfg.enabled ? "Deshabilitar elección" : "Habilitar elección";
+}
+function clickNum(n) {
+  if (!pick) { alert("Pulsa «Elegir mis números» para empezar."); return; }
+  if (sel.has(n)) sel.delete(n);
+  else if (sel.size + yaTiene(pick.u) >= cfg.max) { alert(`Solo puedes tener hasta ${cfg.max} número${cfg.max === 1 ? "" : "s"} en total.`); return; }
+  else sel.add(n);
+  pintar();
+}
+
+/* ---------- Datos en tiempo real ---------- */
+onValue(ref(db, "config"), s => { const v = s.val(); if (v) cfg = {max: +v.max || 1, enabled: !!v.enabled}; $("pMax").value = cfg.max; if (pick && !cfg.enabled) cancelar(); pintar(); });
+onValue(ref(db, "taken"), s => { taken = s.val() || {}; sel.forEach(n => { if (taken[n]) sel.delete(n); }); pintar(); pintarElegidos(); });
+onValue(ref(db, "textos"), s => {
+  const v = s.val() || {};
+  [1, 2, 3].forEach(n => {
+    const t = (v["t" + n] || "").toString(), p = $("v" + n), ta = $("pT" + n);
+    p.textContent = t || "Sin descripción todavía.";
+    p.classList.toggle("vacio", !t);
+    if (document.activeElement !== ta) ta.value = t;
+  });
+});
+onValue(ref(db, ".info/connected"), s => {
+  if (!s.val()) return;
+  const r = push(ref(db, "presence"));
+  onDisconnect(r).remove(); set(r, true);
+});
+onValue(ref(db, "presence"), s => { $("online").textContent = Object.keys(s.val() || {}).length; });
+
+/* ---------- Diálogos ---------- */
+document.querySelectorAll("[data-cerrar]").forEach(b => b.onclick = () => b.closest("dialog").close());
+const abrir = (d, err) => { if (err) $(err).textContent = ""; $(d).showModal(); };
+
+$("btnSolicitar").onclick = () => abrir("dSolicitud", "sErr");
+$("sUsuario").oninput = e => e.target.value = norm(e.target.value);
+$("sCel").oninput = e => e.target.value = e.target.value.replace(/\D/g, "");
+$("sEnviar").onclick = async () => {
+  const name = $("sNombre").value.trim(), u = norm($("sUsuario").value), phone = $("sCel").value;
+  if (name.length < 3) return $("sErr").textContent = "Escribe tu nombre completo.";
+  if (u.length < 1) return $("sErr").textContent = "El usuario debe tener de 1 a 8 letras (sin números).";
+  if (phone.length < 7) return $("sErr").textContent = "Escribe un número de celular válido.";
+  try {
+    await set(ref(db, "requests/" + u), {name, phone, status: "pendiente", ts: Date.now()});
+    $("dSolicitud").close();
+    ["sNombre","sUsuario","sCel"].forEach(i => $(i).value = "");
+    alert("Solicitud enviada. Cuando sea aprobada recibirás tu código de acceso.");
+  } catch (e) { $("sErr").textContent = "Ese usuario ya existe o no se pudo enviar. Prueba con otro usuario."; }
+};
+
+$("btnElegir").onclick = () => abrir("dElegir", "eErr");
+$("eUsuario").oninput = e => e.target.value = norm(e.target.value);
+$("eContinuar").onclick = async () => {
+  const u = norm($("eUsuario").value), code = $("eCodigo").value.trim();
+  if (!u || !code) return $("eErr").textContent = "Escribe tu usuario y tu código de acceso.";
+  if (yaTiene(u) >= cfg.max) return $("eErr").textContent = `Ya elegiste el máximo de ${cfg.max} número${cfg.max === 1 ? "" : "s"}. No puedes elegir más.`;
+  $("eContinuar").disabled = true; $("eErr").textContent = "Verificando…";
+  try {
+    /* Firebase solo acepta esta escritura si el código es el correcto */
+    await set(ref(db, "checks/" + u), code);
+    set(ref(db, "checks/" + u), null).catch(() => {});
+  } catch (e) {
+    $("eContinuar").disabled = false;
+    return $("eErr").textContent = "Usuario o código incorrecto. Revisa tus datos.";
+  }
+  $("eContinuar").disabled = false;
+  pick = {u, code}; sel.clear(); $("dElegir").close(); $("eCodigo").value = ""; pintar();
+  window.scrollTo({top: 0, behavior: "smooth"});
+};
+function cancelar() { pick = null; sel.clear(); pintar(); }
+$("btnCancelar").onclick = cancelar;
+$("btnGuardar").onclick = async () => {
+  if (!sel.size) return;
+  const up = {}; up["claims/" + pick.u] = {code: pick.code, count: yaTiene(pick.u) + sel.size};
+  sel.forEach(n => up["taken/" + n] = pick.u);
+  try {
+    await update(ref(db), up);
+    alert("¡Listo! Tus números quedaron guardados."); cancelar();
+  } catch (e) {
+    alert("No se pudo guardar. Revisa que tu usuario y código sean correctos, que no tengas números elegidos ya y que nadie haya tomado alguno de tus números.");
+    cancelar();
+  }
+};
+
+/* ---------- Administrador ---------- */
+$("btnAdmin").onclick = () => esAdmin ? abrirPanel() : abrir("dLogin", "aErr");
+$("aEntrar").onclick = async () => {
+  const u = $("aUsuario").value.trim().toLowerCase(), p = $("aClave").value;
+  try { await signInWithEmailAndPassword(auth, u + DOMINIO, p); $("aClave").value = ""; $("dLogin").close(); abrirPanel(); }
+  catch (e) { $("aErr").textContent = "Usuario o contraseña incorrectos."; }
+};
+onAuthStateChanged(auth, user => {
+  esAdmin = !!user;
+  if (esAdmin) {
+    onValue(ref(db, "requests"), s => { reqs = s.val() || {}; pintarReqs(); pintarElegidos(); }, () => {});
+    onValue(ref(db, "validados"), s => { validos = s.val() || {}; pintarElegidos(); }, () => pe("Falta la regla «validados» en Firebase."));
+    onValue(ref(db, "codes"), s => { codes = s.val() || {}; pintarReqs(); }, () => {});
+  }
+});
+function abrirPanel() { $("pErr").textContent = ""; $("dPanel").showModal(); }
+$("pSalir").onclick = async () => { await signOut(auth); location.reload(); };
+const pe = t => $("pErr").textContent = t;
+$("pGuardarMax").onclick = async () => {
+  const m = Math.max(1, Math.min(100, parseInt($("pMax").value) || 1));
+  try { await set(ref(db, "config"), {max: m, enabled: cfg.enabled}); pe("Máximo guardado: " + m); } catch (e) { pe("No tienes permiso."); }
+};
+$("pToggle").onclick = async () => {
+  try { await set(ref(db, "config"), {max: cfg.max, enabled: !cfg.enabled}); pe(""); } catch (e) { pe("No tienes permiso."); }
+};
+$("pGuardarTextos").onclick = async () => {
+  const t = {t1: $("pT1").value.trim().slice(0, 500), t2: $("pT2").value.trim().slice(0, 500), t3: $("pT3").value.trim().slice(0, 500)};
+  try { await set(ref(db, "textos"), t); pe("Textos guardados."); } catch (e) { pe("No tienes permiso para guardar los textos."); }
+};
+$("pReset").onclick = async () => {
+  if (!confirm("¿Borrar TODAS las selecciones? Los números quedarán libres y todos podrán elegir de nuevo.")) return;
+  try { await update(ref(db), {taken: null, claims: null, validados: null}); pe("Selecciones reiniciadas."); } catch (e) { pe("No tienes permiso."); }
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function pintarReqs() {
+  const ks = Object.keys(reqs).sort((a, b) => (reqs[a].ts || 0) - (reqs[b].ts || 0));
+  $("pReqs").innerHTML = ks.length ? ks.map(u => {
+    const r = reqs[u], ok = r.status === "aprobado";
+    return `<div class="req"><b>${esc(r.name)}</b><small>Usuario: ${esc(u)} · Cel: ${esc(r.phone)}</small>
+      <div class="fila">${ok
+        ? `<span>Código: <b>${esc(codes[u] || r.code || "")}</b></span><button class="peligro" data-q="${esc(u)}">Quitar</button>`
+        : `<input id="c_${esc(u)}" value="${Math.floor(100000 + Math.random() * 900000)}" aria-label="Código para ${esc(u)}"><button class="main" data-a="${esc(u)}">Aprobar</button><button class="peligro" data-q="${esc(u)}">Rechazar</button>`}
+      </div></div>`;
+  }).join("") : "Sin solicitudes.";
+}
+function pintarElegidos() {
+  if (!esAdmin) return;
+  const porUsuario = {};
+  Object.keys(taken).forEach(n => (porUsuario[taken[n]] = porUsuario[taken[n]] || []).push(+n));
+  const us = Object.keys(porUsuario).sort((a, b) => ((reqs[a] && reqs[a].name) || a).localeCompare((reqs[b] && reqs[b].name) || b));
+  const total = Object.keys(taken).length, val = Object.keys(taken).filter(n => validos[n]).length;
+  $("pResumen").textContent = total ? `${us.length} persona${us.length === 1 ? "" : "s"} · ${total} número${total === 1 ? "" : "s"} elegidos · ${val} válido${val === 1 ? "" : "s"} · ${total - val} sin validar` : "Sin números elegidos.";
+  $("pElegidos").innerHTML = us.map(u => {
+    const ns = porUsuario[u].sort((a, b) => a - b), r = reqs[u], todos = ns.every(n => validos[n]);
+    return `<div class="req"><b>${esc((r && r.name) || u)}</b><small>Usuario: ${esc(u)} · ${ns.length} número${ns.length === 1 ? "" : "s"}</small>
+      <div class="fila" style="margin-top:8px"><button data-p="${esc(u)}">${todos ? "Desmarcar todos" : "Marcar todos"}</button></div>
+      <div class="nums">${ns.map(n => `<label class="${validos[n] ? "ok" : ""}"><input type="checkbox" data-v="${n}" ${validos[n] ? "checked" : ""}> ${n}</label>`).join("")}</div></div>`;
+  }).join("");
+}
+$("pElegidos").onchange = async e => {
+  const n = e.target.dataset.v;
+  if (n === undefined) return;
+  try { await update(ref(db), {["validados/" + n]: e.target.checked ? true : null}); pe(""); }
+  catch (err) { e.target.checked = !e.target.checked; pe("No se pudo guardar la validación. Revisa las reglas de Firebase."); }
+};
+$("pElegidos").onclick = async e => {
+  const u = e.target.dataset.p;
+  if (u === undefined) return;
+  const ns = Object.keys(taken).filter(n => taken[n] === u), marcar = !ns.every(n => validos[n]), up = {};
+  ns.forEach(n => up["validados/" + n] = marcar ? true : null);
+  try { await update(ref(db), up); pe(""); } catch (err) { pe("No se pudo guardar. Revisa las reglas de Firebase."); }
+};
+$("pMarcarTodos").onclick = async () => {
+  const up = {}; Object.keys(taken).forEach(n => up["validados/" + n] = true);
+  if (!Object.keys(up).length) return pe("No hay números elegidos.");
+  try { await update(ref(db), up); pe("Todos los números quedaron marcados como válidos."); } catch (err) { pe("No se pudo guardar. Revisa las reglas de Firebase."); }
+};
+$("pLiberar").onclick = async () => {
+  const libres = Object.keys(taken).filter(n => !validos[n]).map(Number).sort((a, b) => a - b);
+  if (!libres.length) return pe("No hay números sin validar para liberar.");
+  if (!confirm(`Se liberarán ${libres.length} número${libres.length === 1 ? "" : "s"} (los que NO tienen la casilla marcada):\n\n${libres.join(", ")}\n\nQuedarán disponibles para cualquier persona. ¿Continuar?`)) return;
+  const up = {}, resto = {};
+  Object.keys(taken).forEach(n => { resto[taken[n]] = (resto[taken[n]] || 0) + 1; });
+  libres.forEach(n => { up["taken/" + n] = null; up["validados/" + n] = null; resto[taken[n]]--; });
+  Object.keys(resto).forEach(u => { up["claims/" + u + (resto[u] > 0 ? "/count" : "")] = resto[u] > 0 ? resto[u] : null; });
+  try { await update(ref(db), up); pe(`Se liberaron ${libres.length} número${libres.length === 1 ? "" : "s"}.`); }
+  catch (err) { pe("No se pudo liberar. Revisa que hayas iniciado sesión como administrador."); }
+};
+$("pReqs").onclick = async e => {
+  const a = e.target.dataset.a, q = e.target.dataset.q;
+  try {
+    if (a) {
+      const code = $("c_" + a).value.trim();
+      if (!code) return pe("Escribe un código.");
+      await update(ref(db), {["requests/" + a + "/status"]: "aprobado", ["requests/" + a + "/code"]: code, ["codes/" + a]: code});
+    } else if (q) {
+      await update(ref(db), {["requests/" + q]: null, ["codes/" + q]: null});
+    }
+  } catch (err) { pe("No se pudo completar la acción."); }
+};
+pintar();
+</script>
+</body>
+</html>
